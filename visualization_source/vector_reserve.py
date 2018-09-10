@@ -19,7 +19,7 @@ def normalize_series(dframe, series_col_index) :
 				y.iloc[i] = y.iloc[i-1]
 			else:
 				y.iloc[i] = y.iloc[i+1]
-	print('cleaned:  ', cnt)
+	#print('cleaned:  ', cnt)
 
 dframe = pd.read_csv(sys.argv[1]) #index_col=0
 normalize_series(dframe,'NoReserve');
@@ -28,5 +28,5 @@ normalize_series(dframe,'HalfReserve');
 hist_data = [dframe['NoReserve'],dframe['Reserve'],dframe['HalfReserve']]
 group_labels = ['No_Reserve','Reserve_All','Reserve_Half']
 fig = ff.create_distplot(hist_data,group_labels,show_hist=False)
-div1 = plotly.offline.plot(fig)
+div1 = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
 print(div1)
