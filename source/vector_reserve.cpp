@@ -40,7 +40,7 @@ int nanosForHalfReserve(int max){
     //calling reserve but only for half of our amount first.
     high_resolution_clock::time_point start = high_resolution_clock::now();
     vector<int> v;
-    v.reserve(max / 2);
+    v.reserve((max / 2)+5);//included the +5 to make sure we only double size of vector once.
     insertElements(v,max);
     high_resolution_clock::time_point end = high_resolution_clock::now();
     int nanos = duration_cast<nanoseconds>(end-start).count();
@@ -53,8 +53,12 @@ void runTests(int max_elements, int iterations){
     filepth += "_elements.csv";
     cout << filepth << endl;
     ofstream output_file(filepth);
-    output_file << "Iteration, NoReserve, Reserve, HalfReserve," << endl;
-    for(int i = 0; i < iterations; i++){
+    output_file << "Iteration,NoReserve,Reserve,HalfReserve," << endl;
+    //run through each once just to cache opreations
+    nanosForNoReserve(50);
+    nanosForReserve(50);
+    nanosForHalfReserve(50);
+    for(int i = -1; i < iterations; i++){
         output_file << (i + 1) << ',';
         output_file << nanosForNoReserve(max_elements) << ',';
         output_file << nanosForReserve(max_elements) << ',';
@@ -64,17 +68,8 @@ void runTests(int max_elements, int iterations){
     output_file.close();
 }
 
-void cacheOperations(){
-    //run through this first to make sure that our application has already loaded into memory/cache
-    //methods such as constructors, dynamic reallocation, etc.
-    vector<int> v;
-    insertElements(v, 50);
-    high_resolution_clock::time_point s = high_resolution_clock::now(); //make sure accessing the chrono libs is also cached.
-    
-}
 
 int main(){
-    cacheOperations();
     runTests(100, 100);
     runTests(1000, 100);
     runTests(10000, 100);
