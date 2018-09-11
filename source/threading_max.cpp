@@ -47,7 +47,9 @@ int main(){
     for(int i = 1; i < 21; i++){
         output_file << i << "thread,";
     }
+    output_file << endl;
     //now do tests:
+    nanosForInsertion(1);//caching purposes.
     for(int i = 0; i < 50; i++){    //iterations
         for(int j = 1; j < 21; j++){//threadcount
             output_file << nanosForInsertion(j) << ",";

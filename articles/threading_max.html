@@ -1,0 +1,6 @@
+<h4>TL;DR: Do some system profiling before you choose to add more threads.</h4>
+<p>So i decided it would be a neat expiriment to see how much time we can save breaking
+a task into multiple threads.  The nature of the problem lends itself to diminishing returns--the more threads you use, the less of an impact each subsequent one has.  The surprise to me was the loss in performance after surpassing the number of logical cores.</p>
+<p>testing on a computer with 4 logical cores (2 physical)</p>
+<p>
+The code performed a test trying to initialize a shared array of 1 million integers.  It was tested by breaking the task down into how many threads I was allocating for each test run, from 1 thread to 20.  I ran this test 50 times and logged the results.  the following distrubtion graph shows the distribution on the y-axis and the time in nanoseconds on the x-axis.  As you can see, using 4 cores provided consistently better results than the other tests.</p>

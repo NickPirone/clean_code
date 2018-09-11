@@ -22,11 +22,10 @@ def normalize_series(dframe, series_col_index) :
 	#print('cleaned:  ', cnt)
 
 dframe = pd.read_csv(sys.argv[1]) #index_col=0
-normalize_series(dframe,'NoReserve');
-normalize_series(dframe,'Reserve');
-normalize_series(dframe,'HalfReserve');
-hist_data = [dframe['NoReserve'],dframe['Reserve'],dframe['HalfReserve']]
-group_labels = ['No_Reserve','Reserve_All','Reserve_Half']
+hist_data = [dframe['1thread'],dframe['2thread'],dframe['3thread'],dframe['4thread'],
+             dframe['5thread'],dframe['6thread'],dframe['7thread'],dframe['8thread']]
+group_labels = ['Single_Threaded','2_Threads','3_Threads','4_Threads',
+            '5_Threads','6_Threads','7_Threads','8_Threads']
 fig = ff.create_distplot(hist_data,group_labels,show_hist=False)
 div1 = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
 print(div1)
