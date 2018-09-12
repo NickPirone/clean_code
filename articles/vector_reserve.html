@@ -1,7 +1,6 @@
 <h4>TL;DR: using reserve() saves 65% of the time versus using dynamic allocation</h4>
-<p>Today, I am writing about reserving space for elements when using
-std::vector. I am using this method to reserve space for elements: </p>
-<pre><code>vector::reserve(size_type n)</code></pre>
+<p>We all know about the <code>vector::reserve(size_type n)</code> method.  However, I personally had no
+idea how much of a factor it would save in actual performance.  I wanted to test it out and figure out exactly how much time could be saved by using this method.</p>
 <p>
 I have written tests which test performance of the vector container 
 under 3 scenarios:</p>
@@ -11,8 +10,8 @@ under 3 scenarios:</p>
     <li>Reserving just over half of the memory needed.</li>
 </ol>
 <p>The results from the analysis resulted in bi-normal distributions for
-each of the scenarios (if you have an idea on why and how to test for it,
-please comment below!).  However, it is clearly visible that using reserve
-frees up 65% of the processing time.  There is even a considerable difference
-between the half-reserve and full reserve, showing that copying that many elements
-will always cost a large amount of time.</p>
+each of the scenarios.  However, it is clearly visible that using reserve
+frees up 65% of the processing time vs using vector without reserving.  There is even a considerable difference between the half-reserve and full reserve, implying that most of our performance
+loss is happening due to copying larger and larger amounts of data.</p>
+<p>you can see the code used to generate this <a href=https://github.com/NickPirone/clean_code/blob/master/source/vector_reserve.cpp>here</a>
+</p>
