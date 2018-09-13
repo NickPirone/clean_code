@@ -1,0 +1,11 @@
+<h4>TL;DR: std::map outperforms std::unordered_map on total insertion time, even with large N (but why?)</h4>
+<p>When thinking about key-value pair containers, we know that <code>std::unordered_map</code> represents a hash-map with O(1) access, insertion, etc.  We also know that <code>std::map</code> is usually implemented as a red-black tree with O(logn) aceess/insertion times.  I wanted to test out the two containers side by side to see if there was ever a case where we would want to use <code>std::map</code> over <code>std::unordered_map</code></p>
+<p>
+I wrote a program that tests "identical" code (thank you templating) for inserting and accessing N elements in either container.  I ran 100 iterations of each test, testing for N = 10,20,40,80,160,320,640.  I also tested how long it takes the constructor to return for a given container.  Here's the breakdown of results:</p>
+<ul>
+    <li>std::map outperforms std::unordered_map on construction by 35 nanoseconds (390 vs 425).</li>
+    <li>std::unordered_map will quickly outperform std::map on access times (less than 20 elements for this effect to take place.</li>
+    <li><strong>std::unordered_map was surprising slow for overall insertion time.  std::map outperformed on every N I tested, up to 640 elements.</strong></li>
+</ul>
+<p>I'm pretty sure this has to do with the fact that a <code>unordered_map</code> will have to perform a rehash each time it doubles (due to default load factor = 1).  I will have a follow up article soon on running these same tests but pre-allocating buckets for the <code>unordered_map</code>.  The code for this article can be found <a href=https://github.com/NickPirone/clean_code/blob/master/source/hash_vs_tree.cpp>here</a>.
+</p>

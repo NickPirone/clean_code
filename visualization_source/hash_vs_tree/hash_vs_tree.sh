@@ -1,0 +1,1 @@
+Python3 hash_vs_tree.py ../../Output/hash_vs_tree/hash_results.csv ../../Output/hash_vs_tree/tree_results.csv > ../../visualizations/hash_vs_tree/chart.html
