@@ -1,0 +1,12 @@
+<h4>TL;DR: using reserve() hardly saves any time with unordered_map.</h4>
+<p>From my understanding, in most C++ compiler implementations of unordered_map, when the load factor <code>(size() / bucket_count())</code> gets above the <code>max_load_factor</code>, the container will try to double its bucket count and rehash its contents.  I have tested the pattern of bucket counts that arise when incrementally adding elements to an unordered_map, and the counts go from [0,2,5,11,23,...].  It seems like it doubles and then adds one to ensure that it is hitting a prime number (for easy rehashing).  I wanted to test whether reserving the number of buckets needed beforehand would help performance in any way.  What I found was that yes, it does improve performance, however only slightly (compared with my other <a href= ARTICLE PATH>article</a> about <code>vector::reserve()</code>.  </p>
+<p>
+I performed the following four tests for a map that would end up storing 10K elements.</p>
+<ol>
+    <li>Not reserving any buckets.</li>
+    <li>Reserving all the buckets needed.</li>
+    <li>Reserving just over half of the buckets needed.</li>
+    <li>Reserving just over a quarter of the buckets needed.</li>
+</ol>
+<p>RESULTS HERE <a href=https://github.com/NickPirone/clean_code/blob/master/source/unordered_map_reserve.cpp>here</a>
+</p>
